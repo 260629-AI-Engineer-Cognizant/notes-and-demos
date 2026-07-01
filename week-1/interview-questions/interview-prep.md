@@ -1,0 +1,72 @@
+# AI/ML Fundamentals + Neural Networks + Tensorflow Interview Prep
+
+- What is Machine Learning? 
+- What are the types of Machine Learning?
+- What is Supervised Learning?
+- What is Unsupervised Learning? 
+- What is Regression?
+- What is Linear Regression?
+- What is Classification?
+- Applications of Classification
+- What is Clustering?
+- What is K-Means?
+- Advantages of K-Means
+- Limitations of K-Means 
+- Distance Measures in Clustering
+- What is Deep Learning? 
+- What is an Artificial Neural Network (ANN)?
+- Types of Neural Networks
+- What is a Hidden Layer?
+- What is a Neuron?
+- What is CNN?
+- Applications of CNN
+- What is NLP?
+- NLP Applications
+- NLP Components
+- What is TensorFlow? 
+- History of TensorFlow
+- What is a Tensor?
+- What are Constants?
+- What are Variables?
+- What are Placeholders? (TensorFlow 1.x) 
+- What is a Computational Graph? 
+- What is a Session? (TensorFlow 1.x)
+- What is TensorBoard?
+- What is Graph Visualization?
+- Why do we use Activation Functions?
+- Common Activation Functions 
+- What is a Perceptron?
+- What is MLP?
+- What is Backpropagation?
+- Why is Backpropagation Important?
+- What is an Autoencoder? 
+- What is Restricted Boltzmann Machine (RBM)? 
+- What is TFlearn?
+- What is Sequential Composition?
+- What is Functional Composition?
+- What is Batch Normalization?
+- How do you save and load a TensorFlow model?
+- What is the purpose of TensorBoard?
+- Why TensorFlow instead of other frameworks?
+- What is Overfitting?
+- What is Underfitting? 
+- What is an Epoch?
+- What is Batch Size?
+- What is a Learning Rate?
+- What is Gradient Descent? 
+
+## Scenario Based Questions
+- A real estate company wants to predict house prices based on area, number of bedrooms, and location. Which algorithm would you use?
+- You need to classify emails as Spam or Not Spam. Which ML technique would you use? 
+-  A supermarket wants to divide customers into groups based on purchasing habits without knowing any labels.
+- A security company wants to identify employees using face images. 
+- A hospital wants to predict whether a patient has diabetes using medical records
+- A retail company wants to predict next month's sales
+- A bank wants to detect fraudulent credit card transactions. 
+- You have thousands of cat and dog images. Which model would you choose? 
+- How do you decide the value of K? 
+- Your model has 99% training accuracy but 70% testing accuracy. Why?
+- Your model performs poorly on both training and testing data. Why?
+- You have attendance, assignment scores, and study hours. Predict final marks.
+- During training, how do you determine if your model is learning properly?
+- Why use variables instead of constants for model weights? 
