@@ -6,5 +6,5 @@
 | Brandon     | Jimson      |
 | Geremew     | Pablo       |
 | Kamyavalli  | ---------   |
-| Omar        | Vinay       |
 | Nick        | Tim         |
+| Omar        | Vinay       |
