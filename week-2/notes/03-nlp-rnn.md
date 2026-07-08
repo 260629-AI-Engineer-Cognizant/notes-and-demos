@@ -1,43 +1,6 @@
-# TensorFlow Week 2: NLP, RNNs, Embeddings, Transformers, and TensorBoard
+# NLP, RNNs, Embeddings, Transformers, and TensorBoard
 
-## Purpose of This Lesson
-
-This lesson introduces Natural Language Processing (NLP) using TensorFlow/Keras.
-
-The goal is **not** to memorize every NLP architecture. The goal is to understand the workflow:
-
-```text
-text -> tokens -> numeric representations -> embeddings -> model -> evaluation
-```
-
-Then we compare three levels of NLP modeling:
-
-```text
-1. Simple embedding + pooling model
-2. GRU sequence model
-3. Pretrained Transformer transfer-learning model
-```
-
-By the end, you should understand why older sequence models such as RNNs, GRUs, and LSTMs matter, while also understanding why modern NLP commonly uses pretrained Transformers.
-
----
-
-## Learning Objectives
-
-By the end of this lesson, associates should be able to:
-
-- explain why text must be converted into numbers before a model can use it
-- explain tokenization, vocabulary, padding, truncation, and embeddings
-- describe what RNNs, GRUs, and LSTMs do at a high level
-- explain how Transformers differ from recurrent models
-- explain why pretrained Transformers are commonly used for modern NLP
-- train and evaluate text-classification models
-- use TensorBoard to inspect training and validation performance
-- connect embeddings to future topics such as vector databases, semantic search, Chroma, and Pinecone
-
----
-
-# 1. Why NLP Is Different
+# Why NLP Is Different
 
 Images are already numeric once loaded into a computer.
 
@@ -90,7 +53,7 @@ Interview version:
 
 ---
 
-# 2. Tokenization
+# Tokenization
 
 ## What is a token?
 
@@ -161,7 +124,7 @@ Interview version:
 
 ---
 
-# 3. Vocabulary and Integer IDs
+# Vocabulary and Integer IDs
 
 A **vocabulary** is the set of tokens the model knows how to represent.
 
@@ -217,7 +180,7 @@ Interview version:
 
 ---
 
-# 4. Padding, Truncation, and Masks
+# Padding, Truncation, and Masks
 
 Text examples can have different lengths.
 
@@ -278,7 +241,7 @@ Interview version:
 
 ---
 
-# 5. Embeddings
+# Embeddings
 
 ## What is an embedding?
 
@@ -381,7 +344,7 @@ Interview version:
 
 ---
 
-# 6. Why Embeddings Matter for Vector Databases
+# Why Embeddings Matter for Vector Databases
 
 This is important for Week 3.
 
@@ -432,7 +395,7 @@ Interview version:
 
 ---
 
-# 7. Baseline NLP Model: Embedding + Pooling
+# Baseline NLP Model: Embedding + Pooling
 
 A strong beginner baseline is:
 
@@ -504,7 +467,7 @@ Interview version:
 
 ---
 
-# 8. Recurrent Neural Networks
+# Recurrent Neural Networks
 
 ## What does recurrent mean?
 
@@ -577,7 +540,7 @@ Interview version:
 
 ---
 
-# 9. GRUs
+# GRUs
 
 GRU stands for **Gated Recurrent Unit**.
 
@@ -645,7 +608,7 @@ Interview version:
 
 ---
 
-# 10. LSTMs
+# LSTMs
 
 LSTM stands for **Long Short-Term Memory**.
 
@@ -686,7 +649,7 @@ Interview version:
 
 ---
 
-# 11. Transformers
+# Transformers
 
 Transformers changed NLP by replacing step-by-step recurrence with **attention**.
 
@@ -742,7 +705,7 @@ Interview version:
 
 ---
 
-# 12. Transfer Learning with Pretrained Transformers
+# Transfer Learning with Pretrained Transformers
 
 Training a language model from scratch is expensive.
 
@@ -802,7 +765,7 @@ Interview version:
 
 ---
 
-# 13. TensorBoard
+# TensorBoard
 
 TensorBoard is a dashboard for inspecting model training.
 
@@ -816,7 +779,6 @@ We can monitor:
 - validation accuracy
 - precision
 - recall
-- AUC
 - overfitting signs
 
 ## Why validation loss matters
@@ -875,7 +837,7 @@ Interview version:
 
 ---
 
-# 14. Binary Sentiment Classification
+# Binary Sentiment Classification
 
 The IMDB dataset is a binary sentiment classification dataset.
 
@@ -920,85 +882,7 @@ Interview version:
 
 ---
 
-# 15. Model Comparison: What Each Model Teaches
-
-## Baseline pooling model
-
-Teaches:
-
-- tokenization
-- embeddings
-- simple text classification
-- why baselines matter
-
-Core question:
-
-```text
-Can word signals alone classify sentiment?
-```
-
-## GRU model
-
-Teaches:
-
-- sequence order
-- recurrent memory
-- gated sequence models
-- overfitting and tuning
-
-Core question:
-
-```text
-Does reading the sequence in order help?
-```
-
-## Pretrained Transformer
-
-Teaches:
-
-- modern NLP workflow
-- transfer learning
-- pretrained language models
-- fine-tuning
-
-Core question:
-
-```text
-What happens when we reuse a model that already learned language patterns?
-```
-
----
-
-# 16. Practical Takeaways
-
-## Start simple
-
-A simple model is easier to debug and can perform surprisingly well.
-
-## More complex is not always better
-
-A GRU or Transformer is not automatically better on every dataset.
-
-You compare models using validation and test metrics.
-
-## Use pretrained models when possible
-
-For modern NLP tasks, a pretrained Transformer is often the practical starting point.
-
-## Embeddings are foundational
-
-Embeddings appear in:
-
-- text classification
-- semantic search
-- recommendation systems
-- vector databases
-- retrieval-augmented generation
-- LLM applications
-
----
-
-# 17. Quick Cheat Sheet
+# Quick Cheat Sheet
 
 | Topic | Bite-size explanation | Interview-level explanation |
 |---|---|---|
@@ -1013,59 +897,5 @@ Embeddings appear in:
 | LSTM | More complex gated RNN | Uses gates and a cell state to model longer-term dependencies |
 | Transformer | Attention-based model | Uses attention so tokens can directly consider other tokens |
 | Transfer learning | Reuse pretrained model | Fine-tunes a pretrained model on a specific downstream task |
-| TensorBoard | Training dashboard | Visualizes metrics and helps compare model experiments |
+| TensorBoard | Training dashboard | Visualizes loss, accuracy, precision/recall context, and helps compare model experiments |
 | Vector database | Search vectors | Stores embeddings for similarity search and semantic retrieval |
-
----
-
-# 18. What You Should Be Able to Say in an Interview
-
-A strong answer:
-
-> Text must be converted into numeric representations before a neural network can process it. Tokenization splits text into words or subword pieces, and those tokens are mapped to integer IDs. Embeddings convert token IDs into dense vectors that can capture useful relationships between words or text. RNNs, GRUs, and LSTMs process sequences step by step and carry memory forward, while Transformers use attention so tokens can directly focus on other important tokens. In modern NLP, pretrained Transformers are commonly used because they already learned useful language patterns and can be fine-tuned for tasks like sentiment classification. These same embedding ideas also connect to vector databases, where text is stored as vectors for semantic search.
-
----
-
-# 19. Demo Expectations
-
-In the demo, we will train and compare:
-
-1. **Embedding + pooling baseline**
-2. **Bidirectional GRU model**
-3. **Pretrained Transformer transfer-learning model**
-
-We will use the full IMDB dataset by default.
-
-If Colab runtime becomes an issue, the notebook includes a `USE_QUICK_SAMPLE` flag for debugging, but the normal lesson path uses the full dataset.
-
-The pretrained Transformer section is required.
-
-The custom from-scratch Transformer block is intentionally not included.
-
----
-
-# 20. Final Project Connection
-
-For final TensorFlow projects, acceptable NLP options include:
-
-- simple text classifier with embeddings
-- GRU/LSTM text classifier
-- pretrained Transformer classifier
-- comparison between a baseline model and a pretrained model
-- embedding-based semantic search prototype, if appropriate for the project scope
-
-Required evaluation:
-
-- train/validation metrics
-- test-set metrics
-- confusion matrix for classification
-- explanation of where the model struggles
-- TensorBoard screenshot or training-history plots
-
-For Week 3, remember this connection:
-
-```text
-NLP embeddings today
--> vector database search next week
--> retrieval-augmented generation later
-```
