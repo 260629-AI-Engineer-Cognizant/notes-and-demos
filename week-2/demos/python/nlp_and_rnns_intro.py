@@ -399,3 +399,139 @@ can view all of the data as needed
 """
 # %load_ext tensorboard
 # %tensorboard --logdir logs
+
+"""
+Transfer Learning with a Pre-trained Tranformer
+
+Transformers are the modern model for NLP (Natural Language Processing) but they're expensive
+and time consuming to train so we'll do what all good engineers do and steal from others
+
+We're gonna borrow an existing model and tailor it to our specific needs
+
+BERT -> Encoder Transformer -> This is useful for learning relationships in text
+GPT -> Decoder Transformers -> Used for generating the "next word in the sequence" -> Backing for most modern LLMs
+"""
+
+!pip install keras-hub
+
+import keras
+import keras_hub
+
+# Transformer Settings
+# First we need to define the model we're going to pick
+# Here we'll use a BERT tiny model trained on SST-2
+
+TRANSFORMER_PRESET= "bert_tiny_en_uncased_sst2"
+TRANSFORMER_SEQUENCE_LENGTH = 250
+TRANSFORMER_BATCH_SIZE = 128
+TRANSFORMER_HEAD_EPOCHS = 2
+TRANSFORMER_FINE_TUNE_EPOCHS = 2
+
+# Set up our datasets using the functions we had before
+train_ds_transformer = prepare_datasets(train_raw, TRANSFORMER_BATCH_SIZE, shuffle=True)
+val_ds_transformer = prepare_datasets(val_raw, TRANSFORMER_BATCH_SIZE)
+test_ds_transformer = prepare_datasets(test_raw, TRANSFORMER_BATCH_SIZE)
+
+# Let's actually "construct" our model
+
+# Preprocessor
+preprocessor = keras_hub.models.BertTextClassifierPreprocessor.from_preset(
+    TRANSFORMER_PRESET,
+    sequence_length=TRANSFORMER_SEQUENCE_LENGTH
+)
+
+# Transformer Model
+transformer_model = keras_hub.models.BertTextClassifier.from_preset(
+    TRANSFORMER_PRESET,
+    preprocessor=preprocessor,
+    num_classes=2
+    # Why 2 and not 1 class? BERT will give us a vector that has a [negative score, positive score]
+    # Logits
+)
+
+transformer_model.summary()
+
+"""
+When working with Transfer learning there are 2 main parts. The backbone and head
+of the original models
+
+General Transfer learning steps:
+Freeze the backbone and train the classification head (Keep the language learning the
+same but learn how to apply it to our problem)
+
+Fine-Tune the entire model with a much lower learning rate
+"""
+
+transformer_model.backbone.trainable = False
+
+# Compile
+transformer_model.compile(
+  optimizer=keras.optimizers.Adam(learning_rate = .001),
+  loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+  metrics=[
+      keras.metrics.SparseCategoricalAccuracy(name='accuracy')
+  ]
+)
+
+# Fit
+history_transformer_head = transformer_model.fit(
+    train_ds_transformer,
+    validation_data= val_ds_transformer,
+    epochs=TRANSFORMER_HEAD_EPOCHS,
+    callbacks=make_callbacks("03_transformer_head_training", patience = 1)
+)
+
+"""
+Now that we have done training on the classification head, we can fine-tune the
+whole model to our imdb ratings
+
+We need to unfreeze the backbone and then train everything with a much lower
+learning rate
+"""
+# We want to train the backbone now
+transformer_model.backbone.trainable = True
+
+# Compile
+transformer_model.compile(
+  # Drop the learning rate by a lot to not affect it too much
+  optimizer=keras.optimizers.Adam(learning_rate = .00002),
+  loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+  metrics=[
+      keras.metrics.SparseCategoricalAccuracy(name='accuracy')
+  ]
+)
+
+# Fit
+history_transformer_head = transformer_model.fit(
+    train_ds_transformer,
+    validation_data= val_ds_transformer,
+    epochs=TRANSFORMER_FINE_TUNE_EPOCHS,
+    callbacks=make_callbacks("04_transformer_fine_tuning", patience = 1)
+)
+
+# Quick Evaluation of this model
+transformer_results = evaluate_logits_model(
+    transformer_model,
+    test_ds_transformer,
+    "Pretrained Transformer after Transfer Learning"
+)
+
+""" Test with our own reviews"""
+custom_reviews = tf.constant([
+    "This movie was surprisingly fun, well acted, and emotionally satisfying.",
+    "I wanted to like this, but it was slow, boring, and way too long.",
+    "The opening was rough, but by the end I really enjoyed it.",
+    "Not bad at all. I would probably watch it again.",
+])
+
+pooling_probs = pooling_model.predict(custom_reviews).ravel()
+gru_probs = gru_model.predict(custom_reviews).ravel()
+transformer_logits = transformer_model.predict(custom_reviews)
+transformer_probs = tf.nn.softmax(transformer_logits, axis=1).numpy()[:, 1]
+
+for i, review in enumerate(custom_reviews.numpy()):
+    print(review.decode("utf-8"))
+    print(f"Pooling positive probability:     {pooling_probs[i]:.3f}")
+    print(f"GRU positive probability:         {gru_probs[i]:.3f}")
+    print(f"Transformer positive probability: {transformer_probs[i]:.3f}")
+    print("-" * 100)
