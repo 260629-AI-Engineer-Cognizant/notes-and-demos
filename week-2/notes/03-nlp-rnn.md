@@ -751,8 +751,6 @@ general English knowledge
 -> sentiment classifier
 ```
 
-In this lesson, the pretrained Transformer section is **required**, not optional.
-
 We are not building the Transformer from scratch. We are using it the way engineers usually use it in practice.
 
 Bite-size version:
