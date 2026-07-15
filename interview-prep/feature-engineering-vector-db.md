@@ -1,0 +1,23 @@
+# Feature Engineering and Vector DB Interview Prep Questions
+
+- What is Feature Engineering?
+- How do you handle missing values?
+- What is the difference between Label Encoding and One-Hot Encoding?
+- What is Feature Scaling?
+- What is the difference between Accuracy, Precision, and Recall?
+- Explain a Confusion Matrix.
+- What is Overfitting?
+- What is a Vector Database?
+- What are Embeddings?
+- What is Vector Similarity Search?
+- Why do we need Approximate Nearest Neighbor (ANN) search?
+- What is Semantic Search?
+- What is the difference between Keyword Search and Semantic Search?
+- What is Retrieval-Augmented Generation (RAG)?
+- What is the difference between Fine-tuning and RAG?
+- How do you improve RAG accuracy?
+- What causes hallucination in RAG?
+- How do you monitor an ML system in production?
+- Your model gives 99% training accuracy but 70% testing accuracy. What happened?
+- Amazon wants to recommend products to users. How would you design the system?
+- A company wants a chatbot that answers questions from company documents. What would you do?
