@@ -4,11 +4,15 @@ to create our LangChain chains. It'll mostly be functions that
 will be able to be used to return chains, which then can be invoked
 """
 
-from typing import Any
+from typing import Any, Callable
 
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables import RunnableParallel
+
+# Memory Specific Imports
+from langchain_core.chat_history import BaseChatMessageHistory
+from langchain_core.runnables.history import RunnableWithMessageHistory
 
 # Constants get all caps
 ROLE_PROMPTS = {
@@ -94,3 +98,46 @@ def build_judge_chain(model: Any):
     )
 
     return prompt | model | StrOutputParser()
+
+
+# We need two things for this function
+# First is our model
+# The second is a history factory
+# Factory design pattern, you can think of this as a class, or object
+# or function that generates other objects
+
+def build_memory_chain(
+        model: Any,
+        history_factory: Callable[
+            [str],
+            BaseChatMessageHistory
+        ]
+):
+    # Let's create a prompt
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            (
+                "system",
+                "You are a friendly AI assistant"
+                "Use previous conversation details when relevant"
+                "Keep answers clear and concise"
+            ),
+            # MessagesPlaceholder is a placeholder for the previous messages
+            # This of this as context for the specific chain
+            MessagesPlaceholder(variable_name="history"),
+            (
+                "human",
+                "{input}"
+            )
+        ]
+    )
+
+    # LCEL (LangChain Expression Language)
+    base_chain = prompt | model | StrOutputParser()
+
+    return RunnableWithMessageHistory(
+        base_chain,
+        history_factory,
+        input_messages_key="input",
+        history_messages_key="history"
+    )
